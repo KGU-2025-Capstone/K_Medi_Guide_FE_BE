@@ -1,11 +1,4 @@
-server:
-  port: 8080
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/K_Medi_Guide
-    username: root
-    password: 1234
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
+  data:
+    mongodb:
+      uri: mongodb+srv://skcy151515:IyuTp1jwPnkfLXXl@cluster0.es5up.mongodb.net/K_Medi_Guide?retryWrites=true&w=majority&appName=Cluster0&tlsAllowInvalidCertificates=true
