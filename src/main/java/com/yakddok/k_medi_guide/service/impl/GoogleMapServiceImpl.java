@@ -1,9 +1,82 @@
 package com.yakddok.k_medi_guide.service.impl;
 
+import com.yakddok.k_medi_guide.dto.request.RequestPharmarcyDTO;
 import com.yakddok.k_medi_guide.dto.response.ResponsePhamarcyDTO;
 import com.yakddok.k_medi_guide.service.MapService;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class GoogleMapServiceImpl implements MapService {
+
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    @Value("${google.map.client-secret}")
+    private String googleMapClientSecret;
+
+    private final String requestURL =
+        "https://places.googleapis.com/v1/places:searchNearby";
+
+
+    /**
+     * api 를 통해 인근 약국 목록을 받아옵니다. 1키로 반경 15개 고정
+     * @return ResponsePhamarcyDTO (반환된 약국정보들 )
+     */
+    @Override
+    public ResponsePhamarcyDTO getPhamarcy(BigDecimal latitude, BigDecimal longitude) {
+        HttpHeaders headers = createHeaders();
+        RequestPharmarcyDTO requestDTO = new RequestPharmarcyDTO();
+
+        RequestPharmarcyDTO.Center center = new RequestPharmarcyDTO().new Center();
+        center.setLatitude(latitude);
+        center.setLongitude(longitude);
+
+        RequestPharmarcyDTO.LocationRestriction locationRestriction =
+            new RequestPharmarcyDTO().new LocationRestriction();
+        RequestPharmarcyDTO.Circle circle = new RequestPharmarcyDTO().new Circle();
+
+        circle.setCenter(center);
+        locationRestriction.setCircle(circle);
+        List<String> list = new ArrayList<>();
+        list.add("pharmacy");
+        requestDTO.setIncludedTypes(list);
+        requestDTO.setLocationRestriction(locationRestriction);
+
+
+        HttpEntity<RequestPharmarcyDTO> entity = new HttpEntity<>(requestDTO, headers);
+
+        ResponseEntity<ResponsePhamarcyDTO> response = restTemplate.exchange(
+            requestURL,
+            HttpMethod.POST,
+            entity,
+            ResponsePhamarcyDTO.class
+        );
+
+        if(response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        }
+
+        return null;
+    }
+
+    /**
+     * api 요청 시 필요한 헤더를 만듭니다.
+     * 필수값 : secret key
+     * @return HttpHeaders (만들어진 헤더)
+     */
+    private HttpHeaders createHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.set("X-Goog-Api-Key", googleMapClientSecret);
+        headers.set("X-Goog-FieldMask", "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.addressComponents,places.currentOpeningHours");
+        return headers;
+    }
+
+
 }
