@@ -2,3 +2,7 @@ spring:
   data:
     mongodb:
       uri: mongodb+srv://skcy151515:IyuTp1jwPnkfLXXl@cluster0.es5up.mongodb.net/K_Medi_Guide?retryWrites=true&w=majority&appName=Cluster0&tlsAllowInvalidCertificates=true
+
+google:
+  map:
+    client-secret: "" # google map API Client pw 입력
