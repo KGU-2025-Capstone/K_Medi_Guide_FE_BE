@@ -1,13 +1,13 @@
 package com.yakddok.k_medi_guide.controller;
 
+import com.yakddok.k_medi_guide.dto.CardNewsDTO;
 import com.yakddok.k_medi_guide.service.impl.CardNewsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -37,5 +37,20 @@ public class CardNewsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("파일 저장 중 오류가 발생했습니다.");
         }
+    }
+
+    // 카드 뉴스 조회
+    @GetMapping("/posts/{id}")
+    public String getCardNews(@PathVariable String id, Model model) {
+        CardNewsDTO cardNewsDTO = cardNewsService.getCardNewsById(id);
+        model.addAttribute("cardNews", cardNewsDTO);
+        return "cardNewsTest";
+    }
+
+
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<String> deleteCardNews(@PathVariable String id) {
+        cardNewsService.deleteCardNews(id);
+        return ResponseEntity.ok("카드 뉴스가 삭제되었습니다.");
     }
 }
