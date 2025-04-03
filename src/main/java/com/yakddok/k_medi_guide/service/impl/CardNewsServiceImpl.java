@@ -1,5 +1,6 @@
 package com.yakddok.k_medi_guide.service.impl;
 
+import com.yakddok.k_medi_guide.dto.CardNewsDTO;
 import com.yakddok.k_medi_guide.entity.CardNews;
 import com.yakddok.k_medi_guide.repository.CardNewsRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class CardNewsServiceImpl {
     @Value("${file.upload-dir}") // application.properties 파일에서 경로 가져오기
     private String uploadDir;
 
+    // 카드 뉴스 저장
     public void saveCardNews(List<MultipartFile> files, String title) throws IOException {
         List<String> images = new ArrayList<>(); // 저장할 이미지 리스트
         String thumbnailUrl = null;
@@ -58,5 +60,39 @@ public class CardNewsServiceImpl {
                 .updatedAt(LocalDateTime.now())
                 .build();
         cardNewsRepository.save(cardNews);
+    }
+
+    // 카드 뉴스 조회
+    public CardNewsDTO getCardNewsById(String id) {
+        CardNews cardNews = cardNewsRepository.findById(id).orElseThrow();
+
+        return new CardNewsDTO(cardNews);
+    }
+
+    // 카드 뉴스 삭제
+    public void deleteCardNews(String id) {
+        CardNews cardNews = cardNewsRepository.findById(id).orElseThrow();
+
+        List<String> imagePaths = cardNews.getImages();
+
+        // 각 이미지 파일 삭제
+        for (String imagePath : imagePaths) {
+            // 절대 경로 변환
+            String absolutePath = Paths.get(uploadDir, new File(imagePath).getName()).toString();
+            File file = new File(absolutePath);
+
+            // 파일 삭제
+            if (file.exists()) {
+                if (file.delete()) {
+                    System.out.println("🟢 파일 삭제 성공: " + absolutePath);
+                } else {
+                    System.out.println("🚨 파일 삭제 실패: " + absolutePath);
+                }
+            } else {
+                System.out.println("❌ 파일이 존재하지 않음: " + absolutePath);
+            }
+        }
+
+        cardNewsRepository.deleteById(id);
     }
 }
