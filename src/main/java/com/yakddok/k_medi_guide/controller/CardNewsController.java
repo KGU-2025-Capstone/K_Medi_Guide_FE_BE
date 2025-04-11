@@ -2,6 +2,11 @@ package com.yakddok.k_medi_guide.controller;
 
 import com.yakddok.k_medi_guide.dto.CardNewsDTO;
 import com.yakddok.k_medi_guide.service.impl.CardNewsServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +46,15 @@ public class CardNewsController {
 
     // 카드 뉴스 조회
     @GetMapping("/posts/{id}")
+    @Operation(summary = "Get post", description = "카드뉴스 조회 api 입니다")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "성공"),
+        @ApiResponse(responseCode = "4xx", description = "실패")
+    })
+    @Parameters({
+        @Parameter(name = "id", description = "아이디"),
+        @Parameter(name = "model", description = "카드뉴스 모델")
+    })
     public String getCardNews(@PathVariable String id, Model model) {
         CardNewsDTO cardNewsDTO = cardNewsService.getCardNewsById(id);
         model.addAttribute("cardNews", cardNewsDTO);
