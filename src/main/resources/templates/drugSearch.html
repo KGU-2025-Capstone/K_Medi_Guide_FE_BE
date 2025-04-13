@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="ko"
+      data-th-lang="${#locale.language}">
+<head>
+  <meta charset="UTF-8">
+  <title>K-MediGuide</title>
+  <style>
+
+  </style>
+  <link th:href="@{/css/drugSearch.css}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link th:href="@{/css/header.css}" rel="stylesheet">
+  <link th:href="@{/css/footer.css}" rel="stylesheet">
+</head>
+<body>
+<!-- 상단 헤더 -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- 메인 컨텐츠 -->
+<main class="medicine-list">
+  <div class="section-title">Medicine</div>
+
+  <div class="medicine-card" th:each="item : ${medicineList}">
+    <a th:href="@{/drugSpecify/{id}(id=${item.id})}">
+      <div class="medicine-icon">
+        <span class="material-icons">medication</span>
+      </div>
+      <div class="medicine-info">
+        <h3 th:text="${item.name}">medicine information test</h3>
+        <p th:text="${item.description}">상세 정보 설명</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="medicine-card" th:each="item : ${medicineList}">
+    <div class="medicine-icon">
+      <span class="material-icons">medication</span>
+    </div>
+    <div class="medicine-info">
+      <h3 th:text="${item.name}">medicine information test</h3>
+      <p th:text="${item.description}">상세 정보 설명</p>
+    </div>
+  </div>
+</main>
+
+<!-- 하단 푸터 -->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
