@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>챗봇</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/chatbot.css}">
+  <link th:href="@{/css/header.css}" rel="stylesheet">
+  <link th:href="@{/css/footer.css}" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main class="chat-container">
+  <div class="chat-messages" id="chatMessages">
+    
+  </div>
+</main>
+
+<div class="chat-input-area">
+  <input type="text" class="chat-input" placeholder="Type here..."/>
+  <button class="send-button">▶</button>
+</div>
+
+
+<script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html>
