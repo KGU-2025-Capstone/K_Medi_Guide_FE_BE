@@ -1,0 +1,38 @@
+.app-header {
+    background-color: white;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+    font-size: 1.2rem;
+        font-weight: 600;
+        color: #a8e063;
+        margin: 0;
+}
+
+.time, .quick-launch {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 480px) {
+    .app-header {
+        padding: 12px 15px;
+    }
+}
+
+.home-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
