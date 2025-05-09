@@ -21,7 +21,7 @@ public class GoogleMapServiceImpl implements MapService {
     private String googleMapClientSecret;
 
     private final String requestURL =
-        "https://places.googleapis.com/v1/places:searchNearby";
+            "https://places.googleapis.com/v1/places:searchNearby";
 
 
     /**
@@ -38,7 +38,7 @@ public class GoogleMapServiceImpl implements MapService {
         center.setLongitude(longitude);
 
         RequestPharmarcyDTO.LocationRestriction locationRestriction =
-            new RequestPharmarcyDTO().new LocationRestriction();
+                new RequestPharmarcyDTO().new LocationRestriction();
         RequestPharmarcyDTO.Circle circle = new RequestPharmarcyDTO().new Circle();
 
         circle.setCenter(center);
@@ -52,10 +52,10 @@ public class GoogleMapServiceImpl implements MapService {
         HttpEntity<RequestPharmarcyDTO> entity = new HttpEntity<>(requestDTO, headers);
 
         ResponseEntity<ResponsePhamarcyDTO> response = restTemplate.exchange(
-            requestURL,
-            HttpMethod.POST,
-            entity,
-            ResponsePhamarcyDTO.class
+                requestURL,
+                HttpMethod.POST,
+                entity,
+                ResponsePhamarcyDTO.class
         );
 
         if(response.getStatusCode() == HttpStatus.OK) {
