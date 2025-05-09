@@ -1,9 +1,5 @@
 .app-header {
-<<<<<<< HEAD
     background-color: white;
-=======
-    background-color: #2c3e50;
->>>>>>> origin/feature/chatbot
     color: white;
     padding: 15px 20px;
     display: flex;
@@ -12,28 +8,23 @@
     position: sticky;
     top: 0;
     z-index: 100;
-<<<<<<< HEAD
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-=======
 }
 
 .header-left {
     display: flex;
     align-items: center;
     gap: 10px;
->>>>>>> origin/feature/chatbot
 }
 
 .app-header h1 {
     font-size: 1.2rem;
-<<<<<<< HEAD
-        font-weight: 600;
-        color: #a8e063;
-        margin: 0;
-=======
+    font-weight: 600;
+    color: #a8e063;
+    margin: 0;
     font-weight: 600;
     margin: 0;
->>>>>>> origin/feature/chatbot
+
 }
 
 .time, .quick-launch {
@@ -53,9 +44,9 @@
     color: inherit;
     display: flex;
     align-items: center;
-<<<<<<< HEAD
+
 }
-=======
+
 }
 
 .lang-selector {
@@ -74,4 +65,4 @@
     box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
     transition: border-color 0.2s;
 }
->>>>>>> origin/feature/chatbot
+
