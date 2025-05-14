@@ -6,3 +6,15 @@ spring:
 google:
   map:
     client-secret: "" # google map API Client pw 입력
+
+  # MySQL 데이터베이스 설정 추가
+  datasource:
+    url: jdbc:mysql://localhost:3306/K_Medi_Guide?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

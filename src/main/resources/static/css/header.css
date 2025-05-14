@@ -23,6 +23,9 @@ font-family: 'Poppins ', sans-serif;
     font-weight: 600;
     color: #a8e063;
     margin: 0;
+    font-weight: 600;
+    margin: 0;
+
 }
 
 .time, .quick-launch {
@@ -42,6 +45,9 @@ font-family: 'Poppins ', sans-serif;
     color: inherit;
     display: flex;
     align-items: center;
+
+}
+
 }
 
 .lang-selector {
@@ -60,3 +66,4 @@ font-family: 'Poppins ', sans-serif;
     box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
     transition: border-color 0.2s;
 }
+
