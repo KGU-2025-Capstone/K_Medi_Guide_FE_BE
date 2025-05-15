@@ -11,11 +11,21 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .app-header h1 {
-font-family: 'Poppins ', sans-serif;
+    font-family: 'Poppins ', sans-serif;
     font-size: 1.2rem;
     font-weight: 600;
     color: #a8e063;
+    margin: 0;
+    font-weight: 600;
+    margin: 0;
+
 }
 
 .time, .quick-launch {
@@ -35,4 +45,22 @@ font-family: 'Poppins ', sans-serif;
     color: inherit;
     display: flex;
     align-items: center;
+
+}
+
+.lang-selector {
+    display: flex;
+    align-items: center;
+}
+
+.lang-selector select{
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    transition: border-color 0.2s;
 }

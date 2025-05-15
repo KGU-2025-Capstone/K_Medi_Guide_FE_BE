@@ -115,3 +115,8 @@ body {
 .detail-section:last-child {
     border-bottom: none;
 }
+
+.pharmacy-detail {
+    display: none;
+    /* 원하는 위치 고정 및 스타일링 추가 가능 */
+}
