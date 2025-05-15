@@ -9,36 +9,41 @@
   <link th:href="@{/css/footer.css}" rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div class="page-wrapper">
+  <div th:replace="fragments/header :: header"></div>
 
-<div class="search-container">
-  <input type="text" placeholder="Quick Search">
-  <button class="search-button"><a th:href="@{/drugSearch}">🔍</a></button>
+  <main class="page-content">
+    <div class="search-container">
+      <input type="text" placeholder="Quick Search">
+      <button class="search-button"><a th:href="@{/drugSearch}">🔍</a></button>
+    </div>
+
+    <div class="carousel">
+      <button class="prev-button">◀</button>
+      <div class="slides">
+        <img th:src="@{/image/ad01.png}" class="slide active">
+        <img th:src="@{/image/ad02.png}" class="slide">
+        <img th:src="@{/image/ad03.png}" class="slide">
+      </div>
+      <button class="next-button">▶</button>
+    </div>
+
+    <div class="dots-container">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="buttons-container">
+      <button class="feature-button">💊 Medicine Search →</button>
+      <button class="feature-button">🔄 Translation →</button>
+      <button class="feature-button">📍 Nearby Pharmacies →</button>
+      <button class="feature-button">📰 Card News →</button>
+    </div>
+  </main>
+
+  <div th:replace="fragments/footer :: footer"></div>
 </div>
-
-<div class="carousel">
-  <button class="prev-button">◀</button>
-  <div class="slides">
-    <img th:src="@{/image/slide1.jpg}" class="slide active">
-    <img th:src="@{/image/slide2.jpg}" class="slide">
-    <img th:src="@{/image/slide3.jpg}" class="slide">
-  </div>
-  <button class="next-button">▶</button>
-</div>
-
-<div class="dots-container">
-  <span class="dot active"></span>
-  <span class="dot"></span>
-  <span class="dot"></span>
-</div>
-
-<div class="buttons-container">
-  <button class="feature-button">💊 Medicine Search →</button>
-  <button class="feature-button">🔄 Translation →</button>
-  <button class="feature-button">📍 Nearby Pharmacies →</button>
-</div>
-
-<div th:replace="fragments/footer :: footer"></div>
 
 <a th:href="@{/chatbot}" class="floating-chat">💬</a>
 
