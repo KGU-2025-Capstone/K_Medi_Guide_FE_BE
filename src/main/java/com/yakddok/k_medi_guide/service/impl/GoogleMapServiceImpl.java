@@ -76,7 +76,7 @@ public class GoogleMapServiceImpl implements MapService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("X-Goog-Api-Key", googleMapClientSecret);
-        headers.set("X-Goog-FieldMask", "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.addressComponents,places.currentOpeningHours");
+        headers.set("X-Goog-FieldMask", "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.addressComponents,places.currentOpeningHours,places.location");
         return headers;
     }
 
