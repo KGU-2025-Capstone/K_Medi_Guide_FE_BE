@@ -48,7 +48,6 @@
 <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 <script th:inline="javascript">
   const apiKey = /*[[${googleMapsApiKey}]]*/ '';
-  let selectedAddress = null;
 
   function searchPharmacies() {
       if (!navigator.geolocation) {
@@ -111,19 +110,17 @@
       div.classList.add('pharmacy-item', 'mb-3', 'p-3', 'border', 'rounded');
       div.style.cursor = 'pointer';
       div.innerHTML = `
-      <h5>${name}</h5>
-      <p><strong>주소:</strong> ${address}</p>
-      <p><strong>전화번호:</strong> ${phone}</p>
-      <p><strong>상태:</strong> ${openNow}</p>
-      <p><strong>영업시간:</strong> ${hours}</p>
-    `;
+        <h5>${name}</h5>
+        <p><strong>주소:</strong> ${address}</p>
+        <p><strong>전화번호:</strong> ${phone}</p>
+        <p><strong>상태:</strong> ${openNow}</p>
+        <p><strong>영업시간:</strong> ${hours}</p>
+      `;
 
-      // 지도 보여줄 div 생성 (초기에는 숨김)
       const mapDiv = document.createElement('div');
       mapDiv.style.marginTop = '10px';
-      mapDiv.style.display = 'none'; // 초기 숨김
+      mapDiv.style.display = 'none';
 
-      // Static Map 이미지 생성
       const mapImg = document.createElement('img');
       mapImg.alt = '약국 위치';
       mapImg.style.width = '100%';
@@ -131,22 +128,18 @@
       mapImg.style.objectFit = 'cover';
       mapImg.style.cursor = 'pointer';
 
-      // Static Map url 셋팅
-      const encodedAddress = encodeURIComponent(address);
-      const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${encodedAddress}&zoom=16&size=600x300&markers=color:red%7C${encodedAddress}&key=${apiKey}`;
+      const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=16&size=600x300&markers=color:red%7C${lat},${lng}&key=${apiKey}`;
       mapImg.src = mapUrl;
 
-      // 이미지 클릭 시 구글지도 새창 열기
       mapImg.addEventListener('click', () => {
-        const url = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+        const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
         window.open(url, '_blank');
       });
 
       mapDiv.appendChild(mapImg);
 
       div.addEventListener('click', () => {
-        selectedAddress = address;  // 클릭한 약국 주소 저장
-        // 기존 토글 지도 보이기/숨기기 코드
+        selectedLocation = { lat, lng };
         document.querySelectorAll('.pharmacy-item > div').forEach(el => el.style.display = 'none');
         mapDiv.style.display = (mapDiv.style.display === 'none') ? 'block' : 'none';
       });
@@ -161,9 +154,8 @@
   }
 
   function openGoogleMaps() {
-    if (selectedAddress) {
-      const encodedAddress = encodeURIComponent(selectedAddress);
-      const url = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+    if (selectedLocation) {
+      const url = `https://www.google.com/maps/search/?api=1&query=${selectedLocation.lat},${selectedLocation.lng}`;
       window.open(url, '_blank');
     }
   }
