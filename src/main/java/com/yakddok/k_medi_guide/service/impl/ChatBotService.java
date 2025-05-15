@@ -1,7 +1,6 @@
 package com.yakddok.k_medi_guide.service.impl;
 
 import com.yakddok.k_medi_guide.dto.ChatBotDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
