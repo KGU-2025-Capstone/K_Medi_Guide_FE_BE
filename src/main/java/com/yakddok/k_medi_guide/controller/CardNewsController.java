@@ -48,12 +48,12 @@ public class CardNewsController {
     @GetMapping("/posts/{id}")
     @Operation(summary = "Get post", description = "카드뉴스 조회 api 입니다")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "성공"),
-        @ApiResponse(responseCode = "4xx", description = "실패")
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "4xx", description = "실패")
     })
     @Parameters({
-        @Parameter(name = "id", description = "아이디"),
-        @Parameter(name = "model", description = "카드뉴스 모델")
+            @Parameter(name = "id", description = "아이디"),
+            @Parameter(name = "model", description = "카드뉴스 모델")
     })
     public String getCardNews(@PathVariable String id, Model model) {
         CardNewsDTO cardNewsDTO = cardNewsService.getCardNewsById(id);
