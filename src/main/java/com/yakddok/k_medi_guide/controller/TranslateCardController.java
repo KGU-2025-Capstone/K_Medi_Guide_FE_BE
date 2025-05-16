@@ -1,12 +1,10 @@
 package com.yakddok.k_medi_guide.controller;
 
-import com.yakddok.k_medi_guide.dto.CardNewsDTO;
 import com.yakddok.k_medi_guide.dto.response.TranslateCardDTO;
 import com.yakddok.k_medi_guide.service.impl.TranslateCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
