@@ -132,7 +132,9 @@ header {
     align-items: center;
     margin-top: 20px;
 }
-
+.btnForm{
+    width : 100%;
+}
 .feature-button {
     background: white;
     border-radius: 20px;
