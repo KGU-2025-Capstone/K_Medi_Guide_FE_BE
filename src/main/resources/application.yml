@@ -5,4 +5,4 @@ spring:
 
 google:
   map:
-    client-secret: "AIzaSyAesyvk9DeTJ-JnPOB4THgLxXU6Yrjbgi0" # google map API Client pw 입력
+    client-secret: "" # google map API Client pw 입력
