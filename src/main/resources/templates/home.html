@@ -14,7 +14,7 @@
 
   <main class="page-content">
     <div class="search-container">
-      <input type="text" placeholder="Quick Search">
+      <input type="text" th:placeholder="#{home.search}">
       <button class="search-button"><a th:href="@{/drugSearch}">🔍</a></button>
     </div>
 
@@ -35,10 +35,10 @@
     </div>
 
     <div class="buttons-container">
-      <button class="feature-button">💊 Medicine Search →</button>
-      <button class="feature-button">🔄 Translation →</button>
-      <button class="feature-button">📍 Nearby Pharmacies →</button>
-      <button class="feature-button">📰 Card News →</button>
+      <button class="feature-button">💊<span th:text="#{home.medicineSearch}"> Medicine Search </span> →</button>
+      <button class="feature-button">🔄<span th:text="#{home.translation}">Translation </span>  →</button>
+      <button class="feature-button">📍<span th:text="#{home.pharmacy}"> Nearby Pharmacies </span> →</button>
+      <button class="feature-button">📰<span th:text="#{home.cardnews}">Card News</span> →</button>
     </div>
   </main>
 
