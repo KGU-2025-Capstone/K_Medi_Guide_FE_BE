@@ -108,12 +108,37 @@ header {
     margin-right: 8px;
     margin-top: 2px;
 }
+
+.combined-bubble {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-option-button {
+    background-color: #d0e9d3;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+
 /* 채팅 입력창 */
 .chat-input-area {
     display: flex;
     padding: 10px;
     background-color: white;
-    position: sticky;
+    position: fixed;
     bottom: 0;
     width: 100%;
     box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);

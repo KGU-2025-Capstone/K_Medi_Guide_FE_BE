@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>주변 약국 찾기</title>
+  <!-- head 태그 안에 추가 -->
   <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" rel="stylesheet">
   <link th:href="@{/css/pharmacies.css}" rel="stylesheet">
 </head>
@@ -32,8 +33,12 @@
       </div>
       <div class="detail-section">
         <h4 class="mb-3">약국 위치</h4>
-        <img id="staticMap" class="static-map" onclick="openGoogleMaps()" alt="약국 위치">
+        <img id="staticMap" class="static-map" onclick="openGoogleMaps()" alt="약국 위치" style="cursor:pointer;">
         <p class="text-muted mt-2">지도를 클릭하면 Google Maps에서 자세한 위치를 확인할 수 있습니다.</p>
+        <!-- 구글 지도 열기 버튼 추가 -->
+        <button type="button" class="btn btn-outline-primary" onclick="openGoogleMaps()">
+          구글 지도에서 보기
+        </button>
       </div>
     </div>
   </div>
@@ -43,63 +48,116 @@
 <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 <script th:inline="javascript">
   const apiKey = /*[[${googleMapsApiKey}]]*/ '';
-  let selectedPharmacy = null;
 
   function searchPharmacies() {
-      const latitude = 37.5;  // 예시 좌표 (서울 강남구)
-      const longitude = 127.0;
+      if (!navigator.geolocation) {
+          alert('브라우저가 위치 정보를 지원하지 않습니다.');
+          return;
+      }
 
-      fetch(`/pharmacies/nearby?latitude=${latitude}&longitude=${longitude}`)
-          .then(response => response.json())
-          .then(pharmacies => {
-              const pharmacyList = document.getElementById('pharmacyList');
-              pharmacyList.innerHTML = '';
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+              console.log('위치 좌표:', latitude, longitude);
 
-              pharmacies.forEach(pharmacy => {
-                  const div = document.createElement('div');
-                  div.className = 'pharmacy-item';
-                  div.innerHTML = `
-                      <h3>${pharmacy.name}</h3>
-                      <p>${pharmacy.address}</p>
-                      <span class="status-badge ${pharmacy.isOpen ? 'status-open' : 'status-closed'}">
-                          ${pharmacy.isOpen ? '영업 중' : '영업 종료'}
-                      </span>
-                  `;
-                  div.onclick = () => showPharmacyDetail(pharmacy);
-                  pharmacyList.appendChild(div);
+              // Ajax 요청
+              fetch(`/api/map/getPharmacy?latitude=${latitude}&longitude=${longitude}`)
+                  .then(response => {
+                  if (!response.ok) {
+                      throw new Error('약국 정보를 불러오는데 실패했습니다.');
+                  }
+                  return response.json();
+              })
+                  .then(data => {
+                  displayPharmacies(data);
+              })
+                  .catch(error => {
+                  alert(error.message);
               });
-          })
-          .catch(error => {
-              console.error('Error:', error);
-              alert('약국 정보를 가져오는데 실패했습니다.');
-          });
+          },
+          (error) => {
+              alert('위치 정보를 가져오는데 실패했습니다: ' + error.message);
+          },
+          {
+              enableHighAccuracy: true, // 🔴 이 옵션이 핵심
+              timeout: 10000,           // 10초 안에 응답 없으면 에러
+              maximumAge: 0             // 캐시된 위치 허용 안 함
+          }
+      );
   }
 
-  function showPharmacyDetail(pharmacy) {
-      selectedPharmacy = pharmacy;
-      document.getElementById('detailName').textContent = pharmacy.name;
-      document.getElementById('detailAddress').textContent = pharmacy.address;
-      document.getElementById('detailPhone').textContent = pharmacy.phoneNumber || '정보 없음';
+  function displayPharmacies(data) {
+    console.log(data)
+    const pharmacyList = document.getElementById('pharmacyList');
+    pharmacyList.innerHTML = '';
 
-      const openStatus = document.getElementById('detailOpen');
-      openStatus.innerHTML = `<span class="status-badge ${pharmacy.isOpen ? 'status-open' : 'status-closed'}">${pharmacy.isOpen ? '영업 중' : '영업 종료'}</span>`;
+    if (!data.places || data.places.length === 0) {
+      pharmacyList.innerHTML = '<p>주변 약국을 찾을 수 없습니다.</p>';
+      return;
+    }
 
-      document.getElementById('detailHours').textContent = pharmacy.openingHours || '정보 없음';
+    data.places.forEach(place => {
+      const name = place.displayName?.text || '이름 없음';
+      const address = place.formattedAddress || '주소 없음';
+      const phone = place.internationalPhoneNumber || '전화번호 없음';
+      const openNow = place.currentOpeningHours?.openNow ? '영업중' : '영업 종료';
+      const hours = place.currentOpeningHours?.weekdayDescriptions?.join(', ') || '영업시간 정보 없음';
+      const lat = place.location?.latitude;
+      const lng = place.location?.longitude;
 
-      const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${pharmacy.latitude},${pharmacy.longitude}&zoom=15&size=400x200&markers=color:red%7C${pharmacy.latitude},${pharmacy.longitude}&key=${apiKey}`;
-      document.getElementById('staticMap').src = staticMapUrl;
+      const div = document.createElement('div');
+      div.classList.add('pharmacy-item', 'mb-3', 'p-3', 'border', 'rounded');
+      div.style.cursor = 'pointer';
+      div.innerHTML = `
+        <h5>${name}</h5>
+        <p><strong>주소:</strong> ${address}</p>
+        <p><strong>전화번호:</strong> ${phone}</p>
+        <p><strong>상태:</strong> ${openNow}</p>
+        <p><strong>영업시간:</strong> ${hours}</p>
+      `;
 
-      document.getElementById('pharmacyDetail').classList.add('active');
+      const mapDiv = document.createElement('div');
+      mapDiv.style.marginTop = '10px';
+      mapDiv.style.display = 'none';
+
+      const mapImg = document.createElement('img');
+      mapImg.alt = '약국 위치';
+      mapImg.style.width = '100%';
+      mapImg.style.maxHeight = '300px';
+      mapImg.style.objectFit = 'cover';
+      mapImg.style.cursor = 'pointer';
+
+      const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=16&size=600x300&markers=color:red%7C${lat},${lng}&key=${apiKey}`;
+      mapImg.src = mapUrl;
+
+      mapImg.addEventListener('click', () => {
+        const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+        window.open(url, '_blank');
+      });
+
+      mapDiv.appendChild(mapImg);
+
+      div.addEventListener('click', () => {
+        selectedLocation = { lat, lng };
+        document.querySelectorAll('.pharmacy-item > div').forEach(el => el.style.display = 'none');
+        mapDiv.style.display = (mapDiv.style.display === 'none') ? 'block' : 'none';
+      });
+
+      pharmacyList.appendChild(div);
+      pharmacyList.appendChild(mapDiv);
+    });
   }
 
   function closeDetail() {
-      document.getElementById('pharmacyDetail').classList.remove('active');
+    document.getElementById('pharmacyDetail').style.display = 'none';
   }
 
   function openGoogleMaps() {
-      if (selectedPharmacy) {
-          window.open(`https://www.google.com/maps/search/?api=1&query=${selectedPharmacy.latitude},${selectedPharmacy.longitude}`);
-      }
+    if (selectedLocation) {
+      const url = `https://www.google.com/maps/search/?api=1&query=${selectedLocation.lat},${selectedLocation.lng}`;
+      window.open(url, '_blank');
+    }
   }
 </script>
 </body>

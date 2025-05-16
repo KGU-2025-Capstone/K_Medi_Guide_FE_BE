@@ -1,16 +1,16 @@
 package com.yakddok.k_medi_guide.service.impl;
 
-import com.yakddok.k_medi_guide.dto.request.RequestPharmarcyDTO;
-import com.yakddok.k_medi_guide.dto.response.ResponsePhamarcyDTO;
+import com.yakddok.k_medi_guide.dto.request.RequestPharmacyDTO;
+import com.yakddok.k_medi_guide.dto.response.ResponsePharmacyDTO;
 import com.yakddok.k_medi_guide.service.MapService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class GoogleMapServiceImpl implements MapService {
@@ -26,20 +26,21 @@ public class GoogleMapServiceImpl implements MapService {
 
     /**
      * api 를 통해 인근 약국 목록을 받아옵니다. 1키로 반경 15개 고정
+     *
      * @return ResponsePhamarcyDTO (반환된 약국정보들 )
      */
     @Override
-    public ResponsePhamarcyDTO getPhamarcy(BigDecimal latitude, BigDecimal longitude) {
+    public ResponsePharmacyDTO getPharmacy(BigDecimal latitude, BigDecimal longitude) {
         HttpHeaders headers = createHeaders();
-        RequestPharmarcyDTO requestDTO = new RequestPharmarcyDTO();
+        RequestPharmacyDTO requestDTO = new RequestPharmacyDTO();
 
-        RequestPharmarcyDTO.Center center = new RequestPharmarcyDTO().new Center();
+        RequestPharmacyDTO.Center center = new RequestPharmacyDTO().new Center();
         center.setLatitude(latitude);
         center.setLongitude(longitude);
 
-        RequestPharmarcyDTO.LocationRestriction locationRestriction =
-                new RequestPharmarcyDTO().new LocationRestriction();
-        RequestPharmarcyDTO.Circle circle = new RequestPharmarcyDTO().new Circle();
+        RequestPharmacyDTO.LocationRestriction locationRestriction =
+                new RequestPharmacyDTO().new LocationRestriction();
+        RequestPharmacyDTO.Circle circle = new RequestPharmacyDTO().new Circle();
 
         circle.setCenter(center);
         locationRestriction.setCircle(circle);
@@ -49,16 +50,16 @@ public class GoogleMapServiceImpl implements MapService {
         requestDTO.setLocationRestriction(locationRestriction);
 
 
-        HttpEntity<RequestPharmarcyDTO> entity = new HttpEntity<>(requestDTO, headers);
+        HttpEntity<RequestPharmacyDTO> entity = new HttpEntity<>(requestDTO, headers);
 
-        ResponseEntity<ResponsePhamarcyDTO> response = restTemplate.exchange(
+        ResponseEntity<ResponsePharmacyDTO> response = restTemplate.exchange(
                 requestURL,
                 HttpMethod.POST,
                 entity,
-                ResponsePhamarcyDTO.class
+                ResponsePharmacyDTO.class
         );
 
-        if(response.getStatusCode() == HttpStatus.OK) {
+        if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         }
 
@@ -68,13 +69,14 @@ public class GoogleMapServiceImpl implements MapService {
     /**
      * api 요청 시 필요한 헤더를 만듭니다.
      * 필수값 : secret key
+     *
      * @return HttpHeaders (만들어진 헤더)
      */
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("X-Goog-Api-Key", googleMapClientSecret);
-        headers.set("X-Goog-FieldMask", "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.addressComponents,places.currentOpeningHours");
+        headers.set("X-Goog-FieldMask", "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.addressComponents,places.currentOpeningHours,places.location");
         return headers;
     }
 
