@@ -1,13 +1,13 @@
 package com.yakddok.k_medi_guide.controller;
 
-import com.yakddok.k_medi_guide.dto.ChatBotDTO;
+import com.yakddok.k_medi_guide.dto.response.ResponseChatBotDTO;
 import com.yakddok.k_medi_guide.service.impl.ChatBotService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api")
@@ -16,8 +16,15 @@ public class ChatBotController {
 
     private final ChatBotService chatBotService;
 
-    @PostMapping("/summary")
-    public Mono<ChatBotDTO> getSummary(@RequestParam String query) {
-        return chatBotService.getMedicineSummary(query);
+    @PostMapping("/chatbot")
+    public ResponseEntity<ResponseChatBotDTO> sendChatBot(String next, String input) {
+        try {
+            ResponseEntity<ResponseChatBotDTO> response = chatBotService.send(next, input);
+            return response;
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+
 }
