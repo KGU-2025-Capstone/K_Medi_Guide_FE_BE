@@ -1,17 +1,14 @@
 package com.yakddok.k_medi_guide.service.impl;
 
+import com.yakddok.k_medi_guide.dto.request.RequestChatBotDTO;
 import com.yakddok.k_medi_guide.dto.response.ResponseChatBotDTO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
-import reactor.core.publisher.Mono;
-
-import java.util.Map;
 
 @Service
 public class ChatBotService {
@@ -30,13 +27,12 @@ public class ChatBotService {
     public ResponseEntity<ResponseChatBotDTO> send(String next, String input) {
 
         ResponseChatBotDTO response = webClient.post()
-            .uri("api/medicine/" + next)
+            .uri("/api/medicine/" + next)
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(input)
+            .bodyValue(new RequestChatBotDTO(input))
             .retrieve()
             .bodyToMono(ResponseChatBotDTO.class)
             .block();
-
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
