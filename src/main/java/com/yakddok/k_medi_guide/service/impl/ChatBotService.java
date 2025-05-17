@@ -25,15 +25,19 @@ public class ChatBotService {
     }
 
     public ResponseEntity<ResponseChatBotDTO> send(String next, String input) {
-
-        ResponseChatBotDTO response = webClient.post()
+        return webClient.post()
             .uri("/api/medicine/" + next)
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(new RequestChatBotDTO(input))
-            .retrieve()
-            .bodyToMono(ResponseChatBotDTO.class)
+            .exchangeToMono(clientResponse -> {
+                if (clientResponse.statusCode().is2xxSuccessful() || clientResponse.statusCode() == HttpStatus.NOT_FOUND) {
+                    return clientResponse.bodyToMono(ResponseChatBotDTO.class)
+                        .map(response -> ResponseEntity.status(clientResponse.statusCode()).body(response));
+                } else {
+                    return clientResponse.createError(); // 다른 에러 상태 코드는 예외를 던집니다.
+                }
+            })
             .block();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
