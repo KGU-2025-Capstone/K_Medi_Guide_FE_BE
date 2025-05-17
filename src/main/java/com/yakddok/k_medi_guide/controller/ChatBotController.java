@@ -20,7 +20,9 @@ public class ChatBotController {
     public ResponseEntity<ResponseChatBotDTO> sendChatBot(@RequestBody Map<String, String> json) {
         String next = json.get("next");
         String input = json.get("input");
-        System.out.println(next);
+        if(next.charAt(0) == '/'){
+            next = next.substring(1);
+        }
         try {
             ResponseEntity<ResponseChatBotDTO> response = chatBotService.send(next, input);
             return response;
