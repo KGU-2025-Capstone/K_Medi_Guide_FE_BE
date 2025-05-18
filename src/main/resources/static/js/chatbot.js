@@ -182,6 +182,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 }));
             createBotChoiceMessage("버튼을 클릭해주세요!", candidates);
         }
+
+        if(data.response_type === "name_all_fail" || data.response_type === "symptom_all_fail"){
+            createBotChoiceMessage("", [
+                {
+                    label: "OK",
+                    onClick: () => {
+                        next = "start";
+                        nextStep();
+                    }
+                }
+            ]);
+        }
     }
 
     async function nextStep(text) {
