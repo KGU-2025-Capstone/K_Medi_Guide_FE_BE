@@ -19,7 +19,7 @@
 
 <!-- 메인 컨텐츠 -->
 <main class="medicine-list">
-  <div class="section-title">Medicine</div>
+  <div class="section-title" th:text="#{drugSearch.sectionTitle}">Medicine</div>
 
   <div class="medicine-card" th:each="item : ${medicineList}">
     <a th:href="@{/drugSpecify/{id}(id=${item.id})}">
