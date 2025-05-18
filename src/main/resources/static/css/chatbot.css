@@ -43,6 +43,7 @@ header {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    padding-bottom: 80px; /* 입력창 높이 + 약간의 여유 공간 */
 }
 
 .chat-messages {
