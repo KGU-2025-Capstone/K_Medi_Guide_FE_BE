@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>번역 카드</title>
+  <link rel="stylesheet" th:href="@{/css/Translation.css}">
+</head>
+<body>
+<div class="container">
+  <div th:each="card : ${cards}" class="card-box" th:onclick="'showCard(' + ${card.id} + ')'">
+    <img th:if="${card.imageUrl}" th:src="${card.imageUrl}" th:alt="${card.category}">
+    <div class="category" th:text="${card.category}"></div>
+  </div>
+</div>
+
+<div id="cardModal" class="modal">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+    <img id="modalImage" src="" alt="">
+    <h2 id="modalForeignText"></h2>
+    <h3 id="modalKoreanText"></h3>
+  </div>
+</div>
+
+<script th:src="@{/js/Translation.js}"></script>
+</body>
+</html>
