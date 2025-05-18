@@ -134,6 +134,18 @@
       mapImg.style.objectFit = 'cover';
       mapImg.style.cursor = 'pointer';
 
+      fetch('/api/map/getStaticMap?latitude='+lat+"&longitude="+lng)
+      .then(res => res.json())
+      .then(data => {
+        if (data.imageBase64) {
+          mapImg.src = data.imageBase64;
+        } else {
+          mapImg.src = null
+        }
+      })
+      .catch(err => {
+        mapImg.src = null
+      });
 
       mapImg.addEventListener('click', () => {
         const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
