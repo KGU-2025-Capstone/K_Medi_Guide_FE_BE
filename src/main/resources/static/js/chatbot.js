@@ -362,7 +362,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function startProcess() {
         await fetchLocale();  // fetchLocale 함수가 끝날 때까지 기다림
-        console.log(locale);   // 이제 locale 값이 제대로 출력됨
         newSession();          // fetchLocale이 완료된 후 실행
         nextStep();           // fetchLocale이 완료된 후 실행
     }
