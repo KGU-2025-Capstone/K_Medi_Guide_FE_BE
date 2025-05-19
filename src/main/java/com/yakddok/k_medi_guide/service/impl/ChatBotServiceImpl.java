@@ -25,11 +25,11 @@ public class ChatBotServiceImpl {
             .build();
     }
 
-    public ResponseEntity<ResponseChatBotDTO> send(String next, String input, String sessionId) {
+    public ResponseEntity<ResponseChatBotDTO> send(String next, String input, String lang, String sessionId) {
         return webClient.post()
             .uri("/api/medicine/" + next)
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(new RequestChatBotDTO(input))
+            .bodyValue(new RequestChatBotDTO(lang, input))
             .cookie("session", sessionId != null ? sessionId : "")
             .exchangeToMono(clientResponse -> {
                 if (clientResponse.statusCode().is2xxSuccessful() || clientResponse.statusCode() == HttpStatus.NOT_FOUND) {
