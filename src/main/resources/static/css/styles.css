@@ -66,20 +66,18 @@ header {
     aspect-ratio: 11/4;
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .slides {
     display: flex;
     width: 100%;
-    width: 100%;
     object-fit: cover;
     flex-shrink: 0;
 }
 
 .slides img {
-    max-width: 80%;
+    max-width: 100%;
     height: auto;
     display: none;
     margin: 0 auto;
@@ -101,6 +99,7 @@ header {
     padding: 10px;
     cursor: pointer;
     z-index: 100;
+    display: none;
 }
 
 .prev-button { left: 15px; }
@@ -127,10 +126,10 @@ header {
 
 .buttons-container {
     display: flex;
-    background-color: #C0D6BE;
+    /*background-color: #C0D6BE;*/
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 .btnForm{
     width : 100%;
