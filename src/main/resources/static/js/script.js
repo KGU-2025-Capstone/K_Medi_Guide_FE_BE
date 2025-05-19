@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let autoSlideInterval = setInterval(nextSlide, 5000);
 
     function showSlide(index) {
-        console.log(index);
         slides.forEach(function(slide, i) {
             slide.classList.remove("active");
             dots[i].classList.remove("active");

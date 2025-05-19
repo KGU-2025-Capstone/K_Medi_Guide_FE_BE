@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K-MediGuide</title>
+  <title>K-MediGuide - Travel Korea with us!</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}">
   <link th:href="@{/css/header.css}" rel="stylesheet">
   <link th:href="@{/css/footer.css}" rel="stylesheet">
@@ -14,8 +14,8 @@
 
   <main class="page-content">
     <div class="search-container">
-      <input type="text" placeholder="Quick Search">
-      <button class="search-button"><a th:href="@{/drugSearch}">🔍</a></button>
+<!--      <input type="text" th:placeholder="#{home.search}">-->
+<!--      <button class="search-button"><a th:href="@{/drugSearch}">🔍</a></button>-->
     </div>
 
     <div class="carousel">
@@ -35,10 +35,17 @@
     </div>
 
     <div class="buttons-container">
-      <button class="feature-button">💊 Medicine Search →</button>
-      <button class="feature-button">🔄 Translation →</button>
-      <button class="feature-button">📍 Nearby Pharmacies →</button>
-      <button class="feature-button">📰 Card News →</button>
+      <button class="feature-button">💊<span th:text="#{home.medicineSearch}"> Medicine Search </span> →</button>
+
+      <form action="/translateCard" method="get" class = "btnForm">
+      <button class="feature-button">🔄<span th:text="#{home.translation}">Translation </span>  →</button>
+      </form>
+
+      <form action="/pharmacies" method="get" class = "btnForm">
+        <button class="feature-button">📍<span th:text="#{home.pharmacy}"> Nearby Pharmacies </span> →</button>
+      </form>
+
+      <button class="feature-button">📰<span th:text="#{home.cardnews}">Card News</span> →</button>
     </div>
   </main>
 

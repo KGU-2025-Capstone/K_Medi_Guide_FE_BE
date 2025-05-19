@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +42,34 @@ public class MapController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(respDTO);
+    }
+
+    @GetMapping(value = "/getStaticMap")
+    @Operation(summary = "Get Pharmacy static map", description = "인근 약국 지도정보를 가져오는 API 입니다.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "성공"),
+        @ApiResponse(responseCode = "4xx", description = "실패")
+    })
+    @Parameters({
+        @Parameter(name = "latitude", description = "latitude 좌표 값", example = "37.23414"),
+        @Parameter(name = "longitude", description = "longitude 좌표 값", example = "125.12343")
+    })
+    public ResponseEntity<Map<String, String>> getStaticMap(
+        @RequestParam("latitude") BigDecimal latitude,
+        @RequestParam("longitude") BigDecimal longitude){
+
+        try {
+            String base64Image = mapService.getStaticMap(latitude,longitude);
+            Map<String, String> response = new HashMap<>();
+            response.put("imageBase64", base64Image);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Unable to load map: " + e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
+
     }
 }

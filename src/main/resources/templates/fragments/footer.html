@@ -3,14 +3,14 @@
 <body>
 <footer class="app-footer" th:fragment="footer">
     <div class="footer-title">K-MediGuide</div>
-    <div class="footer-links">
-        <a href="#">About</a>
-        <a href="#">Photos</a>
-        <a href="#">Help</a>
-    </div>
-    <div class="copyright">
-        Copyright © 2025 경기대학교 AI컴퓨터공학부 기초캡스톤 약똑팀<br>
-        All Rights Reserved
+
+<!--    <div class="footer-links">-->
+<!--        <a href="#" th:text="#{footer.about}">About</a>-->
+<!--        <a href="#" th:text="#{footer.photos}">Photos</a>-->
+<!--        <a href="#" th:text="#{footer.help}">Help</a>-->
+<!--    </div>-->
+
+    <div class="copyright" th:utext="#{footer.copyright}">
     </div>
 </footer>
 </body>

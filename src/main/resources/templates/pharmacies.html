@@ -3,19 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>주변 약국 찾기</title>
+  <title th:text="#{pharmacies.title}">Near Pharmacies</title>
   <!-- head 태그 안에 추가 -->
   <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" rel="stylesheet">
   <link th:href="@{/css/pharmacies.css}" rel="stylesheet">
+  <link th:href="@{/css/header.css}" rel="stylesheet">
+  <link th:href="@{/css/footer.css}" rel="stylesheet">
 </head>
 <body>
+<div th:replace="fragments/header :: header"></div>
 <div class="container-fluid py-4">
   <div class="row">
     <div class="col-md-8">
       <div class="search-container">
-        <h1 class="mb-4">주변 약국 찾기</h1>
+        <h1 class="mb-4" th:text="#{pharmacies.header}">주변 약국 찾기</h1>
         <button class="btn btn-primary" onclick="searchPharmacies()">
-          <i class="bi bi-search"></i> 주변 약국 검색
+          <i class="bi bi-search"></i>
+          <span th:text="#{pharmacies.button}">주변 약국 검색</span>
         </button>
       </div>
       <div id="pharmacyList" class="pharmacy-list"></div>
@@ -24,20 +28,20 @@
       <span class="close-btn" onclick="closeDetail()">&times;</span>
       <div class="detail-section">
         <h2 id="detailName" class="mb-4"></h2>
-        <p><strong>주소:</strong> <span id="detailAddress"></span></p>
-        <p><strong>전화번호:</strong> <span id="detailPhone"></span></p>
+        <p><strong th:text="#{pharmacies.address}">주소:</strong> <span id="detailAddress"></span></p>
+        <p><strong th:text="#{pharmacies.phone}">전화번호:</strong> <span id="detailPhone"></span></p>
       </div>
       <div class="detail-section">
-        <p><strong>영업 상태:</strong> <span id="detailOpen"></span></p>
-        <p><strong>영업 시간:</strong> <span id="detailHours"></span></p>
+        <p><strong th:text="#{pharmacies.openStatus}">영업 상태:</strong> <span id="detailOpen"></span></p>
+        <p><strong th:text="#{pharmacies.hours}">영업 시간:</strong> <span id="detailHours"></span></p>
       </div>
       <div class="detail-section">
-        <h4 class="mb-3">약국 위치</h4>
+        <h4 class="mb-3" th:text="#{pharmacies.mapTitle}">약국 위치</h4>
         <img id="staticMap" class="static-map" onclick="openGoogleMaps()" alt="약국 위치" style="cursor:pointer;">
-        <p class="text-muted mt-2">지도를 클릭하면 Google Maps에서 자세한 위치를 확인할 수 있습니다.</p>
+        <p class="text-muted mt-2" th:text="#{pharmacies.mapNotice}">지도를 클릭하면 Google Maps에서 자세한 위치를 확인할 수 있습니다.</p>
         <!-- 구글 지도 열기 버튼 추가 -->
         <button type="button" class="btn btn-outline-primary" onclick="openGoogleMaps()">
-          구글 지도에서 보기
+          <span th:text="#{pharmacies.mapButton}">구글 지도에서 보기</span>
         </button>
       </div>
     </div>
@@ -47,7 +51,6 @@
 <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 <script th:inline="javascript">
-  const apiKey = /*[[${googleMapsApiKey}]]*/ '';
 
   function searchPharmacies() {
       if (!navigator.geolocation) {
@@ -80,9 +83,9 @@
               alert('위치 정보를 가져오는데 실패했습니다: ' + error.message);
           },
           {
-              enableHighAccuracy: true, // 🔴 이 옵션이 핵심
-              timeout: 10000,           // 10초 안에 응답 없으면 에러
-              maximumAge: 0             // 캐시된 위치 허용 안 함
+              enableHighAccuracy: true,
+              timeout: 10000,
+              maximumAge: 0
           }
       );
   }
@@ -98,23 +101,29 @@
     }
 
     data.places.forEach(place => {
-      const name = place.displayName?.text || '이름 없음';
-      const address = place.formattedAddress || '주소 없음';
-      const phone = place.internationalPhoneNumber || '전화번호 없음';
-      const openNow = place.currentOpeningHours?.openNow ? '영업중' : '영업 종료';
-      const hours = place.currentOpeningHours?.weekdayDescriptions?.join(', ') || '영업시간 정보 없음';
+      const name = place.displayName?.text || /*[[#{pharmacies.noDisplayName}]]*/ '이름 없음';
+      const address = place.formattedAddress || /*[[#{pharmacies.noAddress}]]*/ '주소 없음';
+      const phone = place.internationalPhoneNumber || /*[[#{pharmacies.noPhone}]]*/ '전화번호 없음';
+      const msgOpen = /*[[#{pharmacies.openNow}]]*/ '영업중';
+      const msgClosed = /*[[#{pharmacies.closed}]]*/ '영업 종료';
+      const openNow = place.currentOpeningHours?.openNow ? msgOpen : msgClosed;
+      const hours = place.currentOpeningHours?.weekdayDescriptions?.join(', ') || /*[[#{pharmacies.noHours}]]*/ '영업시간 정보 없음';
       const lat = place.location?.latitude;
       const lng = place.location?.longitude;
 
       const div = document.createElement('div');
+      const msgAddress = /*[[#{pharmacies.address}]]*/ '주소';
+      const msgPhone = /*[[#{pharmacies.phone}]]*/ '전화번호';
+      const msgStatus = /*[[#{pharmacies.openStatus}]]*/ '상태';
+      const msgHours = /*[[#{pharmacies.hours}]]*/ '영업시간';
       div.classList.add('pharmacy-item', 'mb-3', 'p-3', 'border', 'rounded');
       div.style.cursor = 'pointer';
       div.innerHTML = `
         <h5>${name}</h5>
-        <p><strong>주소:</strong> ${address}</p>
-        <p><strong>전화번호:</strong> ${phone}</p>
-        <p><strong>상태:</strong> ${openNow}</p>
-        <p><strong>영업시간:</strong> ${hours}</p>
+        <p><strong>${msgAddress}:</strong> ${address}</p>
+        <p><strong>${msgPhone}:</strong> ${phone}</p>
+        <p><strong>${msgStatus}:</strong> ${openNow}</p>
+        <p><strong>${msgHours}:</strong> ${hours}</p>
       `;
 
       const mapDiv = document.createElement('div');
@@ -128,8 +137,18 @@
       mapImg.style.objectFit = 'cover';
       mapImg.style.cursor = 'pointer';
 
-      const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=16&size=600x300&markers=color:red%7C${lat},${lng}&key=${apiKey}`;
-      mapImg.src = mapUrl;
+      fetch('/api/map/getStaticMap?latitude='+lat+"&longitude="+lng)
+      .then(res => res.json())
+      .then(data => {
+        if (data.imageBase64) {
+          mapImg.src = data.imageBase64;
+        } else {
+          mapImg.src = null
+        }
+      })
+      .catch(err => {
+        mapImg.src = null
+      });
 
       mapImg.addEventListener('click', () => {
         const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;

@@ -3,6 +3,7 @@ package com.yakddok.k_medi_guide.service.impl;
 import com.yakddok.k_medi_guide.dto.request.RequestPharmacyDTO;
 import com.yakddok.k_medi_guide.dto.response.ResponsePharmacyDTO;
 import com.yakddok.k_medi_guide.service.MapService;
+import java.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -80,5 +81,20 @@ public class GoogleMapServiceImpl implements MapService {
         return headers;
     }
 
+    /**
+     * api 를 통해 Static Map 을 받아옵니다
+     */
+    @Override
+    public String getStaticMap(BigDecimal latitude, BigDecimal longitude){
+        String url =
+            "https://maps.googleapis.com/maps/api/staticmap?center=" +
+                latitude + "," + longitude +"&zoom=16&size=600x300&markers=color:red%7C" + latitude+","+longitude+"&key=" + googleMapClientSecret;
 
+        RestTemplate restTemplate = new RestTemplate();
+        byte[] imageBytes = restTemplate.getForObject(url, byte[].class);
+
+        // Base64로 인코딩하고 data URL 형식으로 반환
+        String base64 = Base64.getEncoder().encodeToString(imageBytes);
+        return "data:image/png;base64," + base64;
+    }
 }
