@@ -36,10 +36,15 @@
 
     <div class="buttons-container">
       <button class="feature-button">💊<span th:text="#{home.medicineSearch}"> Medicine Search </span> →</button>
+
+      <form action="/translateCard" method="get" class = "btnForm">
       <button class="feature-button">🔄<span th:text="#{home.translation}">Translation </span>  →</button>
+      </form>
+
       <form action="/pharmacies" method="get" class = "btnForm">
         <button class="feature-button">📍<span th:text="#{home.pharmacy}"> Nearby Pharmacies </span> →</button>
       </form>
+
       <button class="feature-button">📰<span th:text="#{home.cardnews}">Card News</span> →</button>
     </div>
   </main>
