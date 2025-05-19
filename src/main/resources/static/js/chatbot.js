@@ -5,6 +5,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatContainer = document.querySelector(".chat-container");
     let currentStep = "start_message";
     let next = "start"; //다음 요청 주소
+    let locale;
+
+    async function fetchLocale() {
+        try {
+            const response = await fetch('/api/current-locale');
+            const localeInfo = await response.text();
+            locale = localeInfo;
+        } catch (error) {
+            console.error('언어 정보 불러오기 실패:', error);
+        }
+    }
 
     async function createBotChoiceMessage(text, choices) {
         const messageDiv = document.createElement("div");
@@ -83,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 타이핑 중 스크롤을 아래로 이동
                 chatContainer.scrollTop = chatContainer.scrollHeight;
                 if (index > message.length) {
-                    index = 0; // 텍스트 끝에 도달하면 index를 0으로 초기화하여 반복
+                    index = message.length-3; // 텍스트 끝에 도달하면 index를 0으로 초기화하여 반복
                 }
             }, 80);
         }
@@ -126,7 +137,17 @@ document.addEventListener("DOMContentLoaded", function () {
         if(input){
             addUserMessage(input)
         }
-        createBotTempMessage("답변을 생성 중 이에요...")
+        if(locale === "ko"){
+            createBotTempMessage("답변을 생성 중 이에요...")
+        }
+        else if(locale === "ja"){
+            createBotTempMessage("回答を生成しています...")
+        }
+        else if(locale === "zh"){
+            createBotTempMessage("正在生成回复...")
+        }
+        else createBotTempMessage("Generating response...")
+
         const data = await sendRequest(input, requestNext);
         document.querySelector(".temp").remove();
 
@@ -158,7 +179,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     onClick: () => {
                         if(next === "/start"){
                             next = "start";
-                            createBotMessage("이용해주셔서 감사합니다!")
+                            if(locale === "ko"){
+                                createBotMessage("이용해주셔서 감사합니다!")
+                            }
+                            else if(locale === "ja"){
+                                createBotMessage("ご利用いただきありがとうございます！")
+                            }
+                            else if(locale === "zh"){
+                                createBotMessage("感谢您的使用！")
+                            }
+                            else createBotMessage("Thank you for using our service!")
+
                         }
                         else{
                             addChatUI("NO", next);
@@ -180,7 +211,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         addChatUI(candidate.name_ko, "/select"); // 혹은 현재 next
                     }
                 }));
-            createBotChoiceMessage("버튼을 클릭해주세요!", candidates);
+            if(locale === "ko"){
+                createBotChoiceMessage("버튼을 클릭해주세요!", candidates);
+            }
+            else if(locale === "ja"){
+                createBotChoiceMessage("ボタンをクリックしてください！" , candidates)
+            }
+            else if(locale === "zh"){
+                createBotChoiceMessage("请点击按钮！" , candidates)
+            }
+            else createBotChoiceMessage("Please click the button!" , candidates)
+
         }
 
         if(data.response_type === "name_all_fail" || data.response_type === "symptom_all_fail"){
@@ -197,26 +238,71 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     async function nextStep(text) {
+        let message1
+        let message2
+        let message3
+        let message4
+        let message5
+        let op1
+        let op2
+
+        if(locale === "ko"){
+            message1 = "안녕하세요, K-MediGuide입니다!"
+            message2 = "아래에서 필요한 정보가 있으시다면 클릭해주세요!"
+            message3 = "이 약에 대해 알고 싶어요!"
+            message4 = "증상에 맞는 약을 알고 싶어요!"
+            message5 = "또는 직접 원하는 질문을 할 수 있어요!"
+            op1 = "약"
+            op2 = "증상"
+        }
+        else if(locale === "ja"){
+            message1 = "こんにちは、K-MediGuideです！"
+            message2 = "下の中に必要な情報があればクリックしてください！"
+            message3 = "この薬について知りたいです！"
+            message4 = "症状に合った薬を知りたいです！"
+            message5 = "または、直接質問することもできます！"
+            op1 = "薬"
+            op2 = "症状"
+        }
+        else if(locale === "zh"){
+            message1 = "您好，这里是 K-MediGuide！"
+            message2 = "如果您需要以下信息，请点击！"
+            message3 = "我想了解这款药！"
+            message4 = "我想知道适合我症状的药！"
+            message5 = "或者您也可以直接提问！"
+            op1 = "药"
+            op2 = "症状"
+        }
+        else {
+            message1 = "Hello, this is K-MediGuide!"
+            message2 = "If you see any information you need below, please click!"
+            message3 = "I want to know more about this medicine!"
+            message4 = "I want to find medicine that matches my symptoms!"
+            message5 = "Or you can also ask your own question directly!"
+            op1 = "Medicine"
+            op2 = "Symptom"
+        }
+
         if(next === "start"){
-            await createBotMessage("안녕하세요, K-MediGuide입니다!"); // 메시지 타이핑 완료까지 대기
+            await createBotMessage(message1); // 메시지 타이핑 완료까지 대기
             await new Promise(resolve => setTimeout(resolve, 100)); // 약간의 딜레이 추가
-            createBotChoiceMessage("아래에서 필요한 정보가 있으시다면 클릭해주세요!", [
+            createBotChoiceMessage(message2, [
                 {
-                    label: "이 약에 대해 알고 싶어요!",
+                    label: message3,
                     onClick: () => {
-                        addChatUI("약", next);
+                        addChatUI(op1, next);
                     }
                 },
                 {
-                    label: "증상에 맞는 약을 알고 싶어요!",
+                    label: message4,
                     onClick: () => {
-                        addChatUI("증상", next);
+                        addChatUI(op2, next);
                     }
                 },
             ]);
-            await createBotMessage("또는 직접 원하는 질문을 할 수 있어요!");
+            await createBotMessage(message5);
         } else {
-            addChatUI(text, next);
+            next = "/start";
         }
     }
 
@@ -224,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const text = messageInput.value.trim();
         if (text) {
             messageInput.value = "";
-            nextStep(text);
+            addChatUI(text, next);
         }
     });
 
@@ -273,7 +359,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error('Error:', error));
     }
 
-    newSession();
-    // 초기화
-    nextStep();
+    async function startProcess() {
+        await fetchLocale();  // fetchLocale 함수가 끝날 때까지 기다림
+        console.log(locale);   // 이제 locale 값이 제대로 출력됨
+        newSession();          // fetchLocale이 완료된 후 실행
+        nextStep();           // fetchLocale이 완료된 후 실행
+    }
+
+    startProcess();  // startProcess 함수 실행
 })
