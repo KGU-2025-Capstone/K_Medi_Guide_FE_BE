@@ -336,7 +336,8 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: headers,
             body: JSON.stringify({
                 input: userInput,
-                next: next
+                next: next,
+                lang: locale
             })
         })
         .then(response => response.json())

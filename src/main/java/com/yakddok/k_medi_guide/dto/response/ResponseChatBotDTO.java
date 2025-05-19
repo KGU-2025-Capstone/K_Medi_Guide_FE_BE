@@ -9,6 +9,9 @@ public class ResponseChatBotDTO {
     @JsonProperty("response_type")
     private String responseType;
 
+    @JsonProperty("lang")
+    private String lang;
+
     @JsonProperty("next")
     private String next;
 

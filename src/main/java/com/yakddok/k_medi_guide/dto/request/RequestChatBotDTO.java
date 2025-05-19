@@ -11,6 +11,9 @@ import lombok.Setter;
 public class RequestChatBotDTO {
 
     @JsonProperty
+    private String lang;
+
+    @JsonProperty
     private String input;
 
 }

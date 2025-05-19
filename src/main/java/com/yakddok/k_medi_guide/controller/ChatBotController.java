@@ -40,6 +40,7 @@ public class ChatBotController {
     public ResponseEntity<ResponseChatBotDTO> sendChatBot(@RequestBody Map<String, String> json, HttpServletRequest request, HttpServletResponse response) {
         String next = json.get("next");
         String input = json.get("input");
+        String lang = json.get("lang");
         String sessionId = getSessionIdCookie(request); // 요청에서 세션 쿠키 추출
 
         if (next != null && next.charAt(0) == '/') {
@@ -47,7 +48,7 @@ public class ChatBotController {
         }
 
         try {
-            ResponseEntity<ResponseChatBotDTO> flaskResponse = chatBotServiceImpl.send(next, input, sessionId);
+            ResponseEntity<ResponseChatBotDTO> flaskResponse = chatBotServiceImpl.send(next, input,lang, sessionId);
 
             List<String> setCookieHeaders = flaskResponse.getHeaders().get("Set-Cookie");
             if (setCookieHeaders != null) {
