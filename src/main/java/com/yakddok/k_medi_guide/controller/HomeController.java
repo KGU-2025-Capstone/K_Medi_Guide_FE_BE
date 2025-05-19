@@ -1,6 +1,6 @@
 package com.yakddok.k_medi_guide.controller;
 
-import com.yakddok.k_medi_guide.dto.response.TranslateCardDTO;
+import com.yakddok.k_medi_guide.dto.response.ResponseTranslateCardDTO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class HomeController {
 
     RestTemplate restTemplate = new RestTemplate();
+
     @Autowired
     private final TranslateCardController translateCardController;
 
@@ -41,10 +42,15 @@ public class HomeController {
 
     @GetMapping("/translateCard")
     public String translateCard(Model model) {
-        ResponseEntity<List<TranslateCardDTO>> response = translateCardController.getAllTranslateCards();
+        ResponseEntity<List<ResponseTranslateCardDTO>> response = translateCardController.getAllTranslateCards();
 
-        List<TranslateCardDTO> cards = response.getBody(); // 카드 리스트 조회
+        List<ResponseTranslateCardDTO> cards = response.getBody(); // 카드 리스트 조회
         model.addAttribute("cards", cards);           // "cards" 이름으로 model에 추가
         return "Translation";
+    }
+
+    @GetMapping("/pharmacies")
+    public String pharmaciesPage(Model model) {
+        return "pharmacies";
     }
 }
