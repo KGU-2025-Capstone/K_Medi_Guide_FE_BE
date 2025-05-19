@@ -1,30 +1,28 @@
 package com.yakddok.k_medi_guide.service.impl;
 
-import com.yakddok.k_medi_guide.dto.response.TranslateCardDTO;
+import com.yakddok.k_medi_guide.dto.response.ResponseTranslateCardDTO;
 import com.yakddok.k_medi_guide.entity.TranslateCard;
 import com.yakddok.k_medi_guide.repository.TranslateCardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class TranslateCardService {
+public class TranslateCardServiceImpl {
 
     private final TranslateCardRepository translateCardRepository;
 
     // 번역카드 전체 조회
-    public List<TranslateCardDTO> getAllTranslateCards() {
-        return translateCardRepository.findAll().stream().map(TranslateCardDTO::new).collect(Collectors.toList());
+    public List<ResponseTranslateCardDTO> getAllTranslateCards() {
+        return translateCardRepository.findAll().stream().map(ResponseTranslateCardDTO::new).collect(Collectors.toList());
     }
 
     // 특정 번역카드 조회
-    public TranslateCardDTO getTranslateCard(String id) {
+    public ResponseTranslateCardDTO getTranslateCard(String id) {
         TranslateCard translateCard = translateCardRepository.findById(id).orElseThrow();
-
-        return new TranslateCardDTO(translateCard);
+        return new ResponseTranslateCardDTO(translateCard);
     }
 
     // 번역카드 저장

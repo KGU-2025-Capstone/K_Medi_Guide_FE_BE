@@ -1,7 +1,7 @@
 package com.yakddok.k_medi_guide.controller;
 
 import com.yakddok.k_medi_guide.dto.response.ResponseChatBotDTO;
-import com.yakddok.k_medi_guide.service.impl.ChatBotService;
+import com.yakddok.k_medi_guide.service.impl.ChatBotServiceImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ChatBotController {
 
-    private final ChatBotService chatBotService;
+    private final ChatBotServiceImpl chatBotServiceImpl;
 
     @PostMapping("/api/chatbot/new")
     public ResponseEntity<String> newSession(HttpServletResponse response) {
-        ResponseEntity<String> flaskResponse = chatBotService.newSession();
+        ResponseEntity<String> flaskResponse = chatBotServiceImpl.newSession();
         if (flaskResponse != null) {
             List<String> setCookieHeaders = flaskResponse.getHeaders().get("Set-Cookie");
             if (setCookieHeaders != null) {
@@ -47,7 +47,7 @@ public class ChatBotController {
         }
 
         try {
-            ResponseEntity<ResponseChatBotDTO> flaskResponse = chatBotService.send(next, input, sessionId);
+            ResponseEntity<ResponseChatBotDTO> flaskResponse = chatBotServiceImpl.send(next, input, sessionId);
 
             List<String> setCookieHeaders = flaskResponse.getHeaders().get("Set-Cookie");
             if (setCookieHeaders != null) {

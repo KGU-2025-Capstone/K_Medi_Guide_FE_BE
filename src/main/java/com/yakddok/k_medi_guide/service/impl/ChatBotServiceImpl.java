@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-public class ChatBotService {
+public class ChatBotServiceImpl {
 
     private final WebClient webClient;
 
     @Setter
     private String sessionIdCookie; // 플라스크 세션 쿠키 저장 변수
 
-    public ChatBotService(@Qualifier("webClientBuilder") WebClient.Builder webClientBuilder) {
+    public ChatBotServiceImpl(@Qualifier("webClientBuilder") WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("http://localhost:5000") // Flask 서버 주소
             .build();
     }
@@ -50,12 +50,9 @@ public class ChatBotService {
             for (String setCookieHeader : setCookieHeaders) {
                 if (setCookieHeader.startsWith("session=")) {
                     this.sessionIdCookie = setCookieHeader.split(";")[0].substring("session=".length());
-                    System.out.println("Updated session cookie: " + this.sessionIdCookie);
                     break;
                 }
             }
-        } else {
-            System.err.println("No session cookie found in response.");
         }
     }
 
@@ -79,7 +76,6 @@ public class ChatBotService {
             }
             return response; // Set-Cookie 헤더가 없어도 ResponseEntity 반환 (확인 필요)
         } else {
-            System.err.println("플라스크 세션 생성 요청 실패 또는 응답 없음 (서비스)");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create new session");
         }
     }

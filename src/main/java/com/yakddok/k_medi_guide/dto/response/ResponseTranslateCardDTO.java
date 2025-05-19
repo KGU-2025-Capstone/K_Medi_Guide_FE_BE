@@ -4,7 +4,7 @@ import com.yakddok.k_medi_guide.entity.TranslateCard;
 import lombok.Getter;
 
 @Getter
-public class TranslateCardDTO {
+public class ResponseTranslateCardDTO {
     private final String id;
     private final String K_symptoms;
     private final String E_symptoms;
@@ -12,7 +12,7 @@ public class TranslateCardDTO {
     private final String C_symptoms;
     private final String imageUrl;
 
-    public TranslateCardDTO(TranslateCard translateCard) {
+    public ResponseTranslateCardDTO(TranslateCard translateCard) {
         this.id = translateCard.getId();
         this.K_symptoms = translateCard.getK_symptoms();
         this.E_symptoms = translateCard.getE_symptoms();
