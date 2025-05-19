@@ -10,7 +10,7 @@ public class TranslateCardDTO {
     private final String E_symptoms;
     private final String J_symptoms;
     private final String C_symptoms;
-    private final String imageAddress;
+    private final String imageUrl;
 
     public TranslateCardDTO(TranslateCard translateCard) {
         this.id = translateCard.getId();
@@ -18,6 +18,6 @@ public class TranslateCardDTO {
         this.E_symptoms = translateCard.getE_symptoms();
         this.J_symptoms = translateCard.getJ_symptoms();
         this.C_symptoms = translateCard.getC_symptoms();
-        this.imageAddress = translateCard.getImageAddress();
+        this.imageUrl = translateCard.getImageAddress();
     }
 }
