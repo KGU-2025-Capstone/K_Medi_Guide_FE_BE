@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return new Promise((resolve) => { // Promise 반환
             let index = 0;
             const typingInterval = setInterval(() => {
-                bubble.textContent = message.substring(0, index);
+                bubble.innerHTML = message.substring(0, index);
                 index++;
                 // 타이핑 중 스크롤 아래로 이동
                 chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -342,9 +342,19 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => response.json())
         .then(data => {
-            return data.replace(/\|\|n/g, '\n');
+            // 응답에 메시지 속성이 있고, 줄바꿈 문자 처리
+            if (!data || !data.message) {
+                throw new Error('응답 데이터에 "message" 속성이 없습니다.');
+            }
+
+            // 메시지에서 줄바꿈 문자 (\n)을 <br>로 변환
+            data.message = data.message.replace(/\n/g, '<br>');
+
+            return data; // 변환된 메시지를 반환
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            return { message: '문제가 발생했습니다. 나중에 다시 시도해주세요.' };
+        });
     }
 
     function newSession() {
