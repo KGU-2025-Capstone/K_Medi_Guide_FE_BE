@@ -342,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => response.json())
         .then(data => {
-            return data;
+            return data.replace(/\|\|n/g, '\n');
         })
         .catch(error => console.error('Error:', error));
     }
