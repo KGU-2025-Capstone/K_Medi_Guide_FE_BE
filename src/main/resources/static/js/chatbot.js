@@ -343,18 +343,17 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             // 응답에 메시지 속성이 있고, 줄바꿈 문자 처리
-            if (!data || !data.message) {
+            if (!data) {
                 throw new Error('응답 데이터에 "message" 속성이 없습니다.');
             }
-
-            // 메시지에서 줄바꿈 문자 (\n)을 <br>로 변환
-            data.message = data.message.replace(/\n/g, '<br>');
+            if(data.message){
+                // 메시지에서 줄바꿈 문자 (\n)을 <br>로 변환
+                data.message = data.message.replace(/\n/g, '<br>');
+            }
 
             return data; // 변환된 메시지를 반환
         })
-        .catch(error => {
-            return { message: '문제가 발생했습니다. 나중에 다시 시도해주세요.' };
-        });
+        .catch(error => console.error('Error:', error));
     }
 
     function newSession() {
