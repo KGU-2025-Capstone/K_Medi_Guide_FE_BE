@@ -13,8 +13,14 @@ function closeModal() {
     document.getElementById('cardModal').style.display = 'none';
 }
 
-window.onclick = function(event) {
-    if (event.target == document.getElementById('cardModal')) {
-        closeModal();
+document.addEventListener('mousedown', function(event) {
+    const modal = document.getElementById('cardModal');
+    const modalContent = document.querySelector('.modal-content');
+
+    if (modal && modal.style.display === 'block') {
+        // 클릭된 요소가 모달 컨텐츠 영역 밖이면 모달 닫기
+        if (!modalContent.contains(event.target) && event.target !== modalContent) {
+            closeModal();
+        }
     }
-}
+});
