@@ -76,7 +76,22 @@
   }
 
   function showPharmacyDetail(pharmacy) {
+      const previousSelected = document.querySelector('.pharmacy-item.selected');
+      if (previousSelected) {
+          previousSelected.classList.remove('selected');
+      }
+
+      const currentItem = event.currentTarget;
+
+      if (selectedPharmacy && selectedPharmacy.id === pharmacy.id) {
+          closeDetail();
+          selectedPharmacy = null;
+          return;
+      }
+
       selectedPharmacy = pharmacy;
+      currentItem.classList.add('selected');
+
       document.getElementById('detailName').textContent = pharmacy.name;
       document.getElementById('detailAddress').textContent = pharmacy.address;
       document.getElementById('detailPhone').textContent = pharmacy.phoneNumber || '정보 없음';
@@ -94,6 +109,11 @@
 
   function closeDetail() {
       document.getElementById('pharmacyDetail').classList.remove('active');
+      const selectedItem = document.querySelector('.pharmacy-item.selected');
+      if (selectedItem) {
+          selectedItem.classList.remove('selected');
+      }
+      selectedPharmacy = null;
   }
 
   function openGoogleMaps() {
