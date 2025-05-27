@@ -2,12 +2,10 @@ body {
     background-color: #f8f9fa;
 }
 
-.pharmacy-list {
-    max-height: calc(100vh - 200px);
-    overflow-y: auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.container-fluid {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .pharmacy-item {
@@ -20,6 +18,11 @@ body {
 .pharmacy-item:hover {
     background-color: #f8f9fa;
     transform: translateX(5px);
+}
+
+.pharmacy-item.selected {
+    background-color: #e3f2fd;
+    border-left: 4px solid #1976d2;
 }
 
 .pharmacy-item h3 {
