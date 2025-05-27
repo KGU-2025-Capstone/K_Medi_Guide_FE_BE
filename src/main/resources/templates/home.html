@@ -13,45 +13,40 @@
   <div th:replace="fragments/header :: header"></div>
 
   <main class="page-content">
-    <div class="search-container">
-<!--      <input type="text" th:placeholder="#{home.search}">-->
-<!--      <button class="search-button"><a th:href="@{/drugSearch}">🔍</a></button>-->
-    </div>
-
     <div class="chatbot-wrapper">
       <button class="action-button chatbot-button" onclick="location.href='/chatbot'">
         <img th:src="@{/image/mascot.png}" alt="Mascot">
-        <span class="chat-text">May I help you?</span>
+        <span class="chat-text" th:utext="#{home.chatbot}">May I help you?</span>
       </button>
     </div>
+    <div class="button-slider-container">
+      <div class="button-grid">
+        <form action="/pharmacies" method="get" class="btnForm">
+          <button class="feature-button">
+            <img th:src="@{/image/icon_map.png}" alt="Map"><br>
+            <span th:text="#{home.pharmacy}"> Nearby Pharmacies </span>
+          </button>
+        </form>
 
-    <div class="button-grid">
-      <form action="/pharmacies" method="get" class="btnForm">
-        <button class="feature-button">
-          <img th:src="@{/image/icon_map.png}" alt="Map"><br>
-          Near Pharmacies
-        </button>
-      </form>
+        <form action="/translateCard" method="get" class="btnForm">
+          <button class="feature-button">
+            <img th:src="@{/image/icon_translate.png}" alt="Translate"><br>
+            <span th:text="#{home.translation}"/>
+          </button>
+        </form>
 
-      <form action="/translateCard" method="get" class="btnForm">
-        <button class="feature-button">
-          <img th:src="@{/image/icon_translate.png}" alt="Translate"><br>
-          Translate Card
-        </button>
-      </form>
-
-      <form action="/cardnews" method="get" class="btnForm">
-        <button class="feature-button">
-          <img th:src="@{/image/icon_news.png}" alt="News"><br>
-          Card News
-        </button>
-      </form>
-
+        <form action="/cardnews" method="get" class="btnForm">
+          <button class="feature-button">
+            <img th:src="@{/image/icon_news.png}" alt="News"><br>
+            <span th:text="#{home.cardnews}">Card News</span>
+          </button>
+        </form>
+      </div>
     </div>
 
     <div class="howto-wrapper">
       <button class="action-button howto-button" onclick="location.href='/howtouse'">
-        How To Use ?
+        <span th:text="#{home.howtouse}">Card News</span>
       </button>
     </div>
 

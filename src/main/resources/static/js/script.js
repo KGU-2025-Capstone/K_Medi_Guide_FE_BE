@@ -49,5 +49,6 @@ document.addEventListener("DOMContentLoaded", function() {
             resetAutoSlide();
         });
     });
+
 });
   
