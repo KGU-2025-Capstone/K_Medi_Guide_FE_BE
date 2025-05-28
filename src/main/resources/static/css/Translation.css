@@ -70,6 +70,9 @@ body {
     border-radius: 10px;
     text-align: center;
 }
+#modalImage{
+    width : 15rem;
+}
 
 .close {
     position: absolute;
