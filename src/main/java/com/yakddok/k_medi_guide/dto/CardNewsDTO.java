@@ -13,7 +13,8 @@ public class CardNewsDTO {
     private final List<String> images;
     private final String thumbnail;
     private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
+    private final String author;
+    private final String description;
 
     public CardNewsDTO (CardNews cardNews) {
         this.id = cardNews.getId();
@@ -21,6 +22,7 @@ public class CardNewsDTO {
         this.images = cardNews.getImages();
         this.thumbnail = cardNews.getThumbnail();
         this.createdAt = cardNews.getCreatedAt();
-        this.updatedAt = cardNews.getUpdatedAt();
+        this.author = cardNews.getAuthor();
+        this.description = cardNews.getDescription();
     }
 }
