@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let next = "start"; //다음 요청 주소
     let locale;
 
+    marked.setOptions({
+        gfm: false  // GitHub Flavored Markdown 기능 비활성화 → ~~ 취소선 제거됨
+    });
+
     async function fetchLocale() {
         try {
             const response = await fetch('/api/current-locale');
@@ -50,24 +54,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const bubble = document.createElement("div");
         bubble.classList.add("bubble");
-        bubble.textContent = ""; // 초기 텍스트 비움
+        bubble.innerHTML = ""; // 초기 텍스트 비움
 
         messageDiv.appendChild(bubble);
         chatMessages.appendChild(messageDiv);
 
-        return new Promise((resolve) => { // Promise 반환
+        return new Promise((resolve) => {
             let index = 0;
             const typingInterval = setInterval(() => {
-                bubble.innerHTML = message.substring(0, index);
+                const partialText = message.substring(0, index);
+                bubble.innerHTML = marked.parse(partialText); // 마크다운을 HTML로 변환
+
                 index++;
-                // 타이핑 중 스크롤 아래로 이동
                 chatContainer.scrollTop = chatContainer.scrollHeight;
                 if (index > message.length) {
                     clearInterval(typingInterval);
-                    resolve(); // 타이핑 완료 후 Promise resolve
+                    bubble.innerHTML = marked.parse(message); // 전체 마크다운 재렌더링
+                    resolve();
                 }
             }, 20);
-            // 초기 스크롤 (애니메이션 시작 후 한 번 실행해도 충분)
+
             chatContainer.scrollTop = chatContainer.scrollHeight;
         });
     }
@@ -138,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
             addUserMessage(input)
         }
         if(locale === "ko"){
-            createBotTempMessage("답변을 생성 중 이에요...")
+            createBotTempMessage("답변을 생성하는 중이에요...")
         }
         else if(locale === "ja"){
             createBotTempMessage("回答を生成しています...")
@@ -343,18 +349,17 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             // 응답에 메시지 속성이 있고, 줄바꿈 문자 처리
-            if (!data || !data.message) {
+            if (!data) {
                 throw new Error('응답 데이터에 "message" 속성이 없습니다.');
             }
-
-            // 메시지에서 줄바꿈 문자 (\n)을 <br>로 변환
-            data.message = data.message.replace(/\n/g, '<br>');
+            if(data.message){
+                // 메시지에서 줄바꿈 문자 (\n)을 <br>로 변환
+                data.message = data.message.replace(/\n/g, '<br>');
+            }
 
             return data; // 변환된 메시지를 반환
         })
-        .catch(error => {
-            return { message: '문제가 발생했습니다. 나중에 다시 시도해주세요.' };
-        });
+        .catch(error => console.error('Error:', error));
     }
 
     function newSession() {
