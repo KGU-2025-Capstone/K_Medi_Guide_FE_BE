@@ -19,24 +19,25 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class CardNewsController {
 
     private final CardNewsServiceImpl cardNewsService;
 
     // 카드 뉴스 작성
-    @PostMapping("/posts")
+    @PostMapping("/cardNews")
     public ResponseEntity<String> uploadCardNews(
             @RequestParam("files") List<MultipartFile> files,
-            @RequestParam("title") String title) {
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("author") String author) {
 
         if (files == null || files.isEmpty()) {
             return ResponseEntity.badRequest().body("최소 하나 이상의 이미지를 업로드해야 합니다.");
         }
 
         try {
-            cardNewsService.saveCardNews(files, title);
+            cardNewsService.saveCardNews(files, title, author, description);
             return ResponseEntity.ok("카드뉴스가 성공적으로 저장되었습니다.");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -44,25 +45,23 @@ public class CardNewsController {
         }
     }
 
-    // 카드 뉴스 조회
-    @GetMapping("/posts/{id}")
-    @Operation(summary = "Get post", description = "카드뉴스 조회 api 입니다")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "실패")
-    })
-    @Parameters({
-            @Parameter(name = "id", description = "아이디"),
-            @Parameter(name = "model", description = "카드뉴스 모델")
-    })
-    public String getCardNews(@PathVariable String id, Model model) {
-        CardNewsDTO cardNewsDTO = cardNewsService.getCardNewsById(id);
-        model.addAttribute("cardNews", cardNewsDTO);
-        return "cardNewsTest";
+    @GetMapping("/cardNews")
+    public String getCardNewsList(Model model) {
+        // 저장된 모든 카드뉴스 가져오기
+        List<CardNewsDTO> cardNewsList = cardNewsService.getAllCardNews();
+        model.addAttribute("cardNewsList", cardNewsList);
+        return "cardNewsList";
+    }
+
+    @GetMapping("/cardNews/{id}")
+    public String getCardNewsDetail(@PathVariable String id, Model model) {
+        CardNewsDTO cardNews = cardNewsService.getCardNewsById(id);
+        model.addAttribute("cardNews", cardNews);
+        return "cardNewsDetail"; // 상세 페이지 템플릿 (templates/cardnews/detail.html)
     }
 
 
-    @DeleteMapping("/posts/{id}")
+    @DeleteMapping("/cardNews/{id}")
     public ResponseEntity<String> deleteCardNews(@PathVariable String id) {
         cardNewsService.deleteCardNews(id);
         return ResponseEntity.ok("카드 뉴스가 삭제되었습니다.");

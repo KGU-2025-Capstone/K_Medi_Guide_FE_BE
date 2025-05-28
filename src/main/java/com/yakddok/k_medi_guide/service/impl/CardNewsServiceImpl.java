@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class CardNewsServiceImpl {
     private String uploadDir;
 
     // 카드 뉴스 저장
-    public void saveCardNews(List<MultipartFile> files, String title) throws IOException {
+    public void saveCardNews(List<MultipartFile> files, String title, String description, String author) throws IOException {
         List<String> images = new ArrayList<>(); // 저장할 이미지 리스트
         String thumbnailUrl = null;
 
@@ -57,7 +58,8 @@ public class CardNewsServiceImpl {
                 .title(title)
                 .thumbnail(thumbnailUrl)
                 .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
+                .author(author)
+                .description(description)
                 .build();
         cardNewsRepository.save(cardNews);
     }
@@ -67,6 +69,13 @@ public class CardNewsServiceImpl {
         CardNews cardNews = cardNewsRepository.findById(id).orElseThrow();
 
         return new CardNewsDTO(cardNews);
+    }
+
+    public List<CardNewsDTO> getAllCardNews() {
+        List<CardNews> cardNewsList = cardNewsRepository.findAll();
+        return cardNewsList.stream()
+                .map(CardNewsDTO::new)
+                .collect(Collectors.toList());
     }
 
     // 카드 뉴스 삭제

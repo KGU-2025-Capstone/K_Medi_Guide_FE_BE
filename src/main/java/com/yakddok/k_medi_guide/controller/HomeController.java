@@ -54,6 +54,4 @@ public class HomeController {
         return "pharmacies";
     }
 
-    @GetMapping("/cardnews")
-    public String cardnewsPage(Model model) {return "cardNewsList";}
 }

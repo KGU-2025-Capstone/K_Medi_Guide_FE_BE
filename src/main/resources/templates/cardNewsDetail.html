@@ -13,23 +13,25 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div class="container mt-4">
-  <a th:href="@{/}" class="btn btn-outline-primary back-button">
+  <a th:href="@{/cardNews}" class="btn btn-outline-primary back-button">
     <i class="bi bi-arrow-left"></i> 목록으로 돌아가기
   </a>
 
   <div class="card">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <span class="badge bg-primary" th:text="${cardNews.category}"></span>
         <div class="meta-info">
           <span th:text="${cardNews.author}"></span> |
-          <span th:text="${cardNews.publishDate}"></span>
+          <span th:text="${#temporals.format(cardNews.createdAt, 'yyyy년 MM월 dd일 HH:mm')}"></span>
         </div>
       </div>
 
       <h1 class="card-title mb-4" th:text="${cardNews.title}"></h1>
 
-      <img th:src="${cardNews.imageUrl}" class="detail-image mb-4" alt="카드뉴스 이미지">
+        <img th:each="imgUrl : ${cardNews.images}"
+             th:src="${imgUrl}"
+             class="detail-image mb-4"
+             alt="카드뉴스 이미지" />
 
       <p class="card-text" th:text="${cardNews.description}"></p>
     </div>

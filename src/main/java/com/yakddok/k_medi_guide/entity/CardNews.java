@@ -22,5 +22,6 @@ public class CardNews {
     private List<String> images;
     private String thumbnail;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String author;
+    private String description;
 }
