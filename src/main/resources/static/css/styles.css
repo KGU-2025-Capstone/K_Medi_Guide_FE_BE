@@ -1,173 +1,294 @@
 html {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    height: 100%;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px 20px;
 }
 
 .page-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .page-content {
-    flex: 1;
+  width: 100%;
+  flex: 1;
+  padding: 2rem 1rem 0 1rem; /* 위와 아래 2rem, 왼쪽과 오른쪽 1rem 여백 */
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between; /* 위와 아래 간격 균등하게 */
+  flex-direction: column;
 }
 
 .title-container {
-    display: flex;
-    align-items: center;
-    text-decoration-color: #328A2A;
+  display: flex;
+  align-items: center;
+  text-decoration-color: #328A2A;
 }
 
 .language-selector {
-    margin-left: 10px;
-    padding: 5px;
+  margin-left: 10px;
+  padding: 5px;
 }
 
 .menu-button {
-    font-size: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .search-container {
-    margin: 10px;
+  margin: 10px;
 }
 
 .search-container input {
-    padding: 5px;
-    width: 200px;
+  padding: 5px;
+  width: 200px;
 }
 
 .search-button {
-    padding: 5px;
+  padding: 5px;
 }
 
 .carousel {
-    position: relative;
-    width: 100%;
-    max-width: 1100px;
-    aspect-ratio: 11/4;
-    margin: 0 auto;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 2rem;
 }
 
 .slides {
-    display: flex;
-    width: 100%;
-    object-fit: cover;
-    flex-shrink: 0;
+  display: flex;
+  height : 10rem;
+  transition: transform 0.5s ease;
+}
+.slide {
+  flex: 0 0 100%;
+  display: none;
+  border-radius: 12px;
 }
 
 .slides img {
-    max-width: 100%;
-    height: auto;
-    display: none;
-    margin: 0 auto;
-    transform: transform 0.5s ease;
+  max-width: 100%;
+  height: auto;
+  display: none;
+  margin: 0 auto;
+  transform: transform 0.5s ease;
+  object-fit: cover;
 }
 
 .slides img.active {
-    display: block;
+  display: block;
 }
 
 .prev-button, .next-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    font-size: 20px;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 100;
-    display: none;
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.3);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
 }
 
 .prev-button { left: 15px; }
 .next-button { right: 15px; }
 
 .dots-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  display: none;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .dot {
-    width: 10px;
-    height: 10px;
-    margin: 5px;
-    background: gray;
-    border-radius: 50%;
-    display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 5px;
+  background: gray;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .dot.active {
-    background: #328A2A;
+  background: #537865;
 }
 
+.button-slider-container {
+  width: 100%;               /* 전체 너비 */
+  overflow-x: scroll;          /* 수평 스크롤을 허용 */
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  white-space: nowrap;
+}
+.button-slider-container::-webkit-scrollbar{
+  display: none;
+}
 .buttons-container {
-    display: flex;
-    /*background-color: #C0D6BE;*/
-    flex-direction: column;
-    align-items: center;
-    margin-top: 40px;
+  display: flex;
+  /*background-color: #C0D6BE;*/
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
 }
 .btnForm{
-    width : 100%;
-}
-.feature-button {
-    background: white;
-    border-radius: 20px;
-    padding: 15px;
-    width: 80%;
-    margin: 10px;
-    font-size: 18px;
-    text-align: left;
-    cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  width : 100%;
 }
 
-.floating-chat {
-    position: fixed;
-    bottom: 30px;
-    right: 20px;
-    background: #328A2A;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 50%;
-    font-size: 20px;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-    z-index: 999;
-    cursor: pointer;
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 1rem;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s;
+  width: 160px;
+}
+
+.action-button img {
+  width: 40px;
+}
+
+.action-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  background: #f9f9f9;
+  color: black;
+}
+
+.chatbot-wrapper {
+  width: 100%;
+  padding: 0;
+  margin: 1rem auto;
+}
+.chatbot-button {
+  height: 10rem;
+  width: 100%;
+  background: linear-gradient(90deg, #537865, #415E50);
+  color: #fff;
+  justify-content: flex-start;  /* 왼쪽 정렬 */
+  position: relative;
+}
+.chatbot-button img:first-child {
+  width: 8rem;
+  height: 8rem;
+  transform: scaleX(-1);  /* 이미지를 좌우 반전 */
+}
+.chatbot-button .chat-text {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  white-space: normal;
+  padding-bottom: 1rem;
+  word-wrap: break-word;  /* 텍스트가 넘칠 때 자동으로 줄바꿈 */
+  text-align: right; /* 텍스트 왼쪽 정렬 */
+}
+.chatbot-button .bubble-icon {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 28px;
+  height: 28px;
+}
+
+.howto-wrapper {
+  width: 100%;
+  padding: 0;
+  margin: 1rem auto;
+}
+.howto-button {
+  width: 100%;
+  height: 5rem;
+  background: linear-gradient(90deg, #537865, #415E50);
+  color: #fff;
+  justify-content: left;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.button-grid {
+  display: flex;
+  justify-content: content;
+  align-items: flex-start;
+  gap: 1.7rem;
+  margin: 1rem auto;
+}
+
+.feature-button {
+  border: none;
+  width: 8rem;
+  height: 10rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* 가로 방향으로 왼쪽 정렬 */
+  justify-content: space-between; /* 세로 방향으로 위 아래 간격을 일정하게 */
+  padding: 0.5rem;  /* 버튼 안의 내용과 테두리 간격 */
+  transition: transform .2s, box-shadow .2s;
+}
+
+.feature-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.feature-button img {
+  width: 2.7rem;
+  align-self: flex-start; /* 이미지를 왼쪽으로 정렬 */
+  padding-left: 0.7rem;  /* 텍스트 오른쪽에 간격 추가 */
+  padding-top: 1rem;
+}
+
+.feature-button span {
+  font-size: 0.9rem;
+  color: #395239;
+  align-self: flex-start; /* 텍스트도 왼쪽으로 정렬 */
+  padding-left: 0.7rem;  /* 텍스트 오른쪽에 간격 추가 */
+  padding-bottom: 1rem;
+  font-weight: 700;
+  word-wrap: break-word;  /* 텍스트가 넘칠 때 자동으로 줄바꿈 */
+  text-align: left; /* 텍스트 왼쪽 정렬 */
+  white-space: normal; /* 텍스트가 공간에 맞춰 줄바꿈되도록 설정 */
 }
 
 footer {
-    background: lightgray;
-    padding: 20px;
+  background: lightgray;
+  padding: 20px;
 }
 
 .footer-title {
-    color: #328A2A;
-    font-weight: bold;
-    font-size: 18px;
+  color: #328A2A;
+  font-weight: bold;
+  font-size: 18px;
 }

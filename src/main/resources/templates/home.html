@@ -13,11 +13,44 @@
   <div th:replace="fragments/header :: header"></div>
 
   <main class="page-content">
-    <div class="search-container">
-<!--      <input type="text" th:placeholder="#{home.search}">-->
-<!--      <button class="search-button"><a th:href="@{/drugSearch}">🔍</a></button>-->
+    <div class="chatbot-wrapper">
+      <button class="action-button chatbot-button" onclick="location.href='/chatbot'">
+        <img th:src="@{/image/mascot.png}" alt="Mascot">
+        <span class="chat-text" th:utext="#{home.chatbot}">May I help you?</span>
+      </button>
+    </div>
+    <div class="button-slider-container">
+      <div class="button-grid">
+        <form action="/pharmacies" method="get" class="btnForm">
+          <button class="feature-button">
+            <img th:src="@{/image/icon_map.png}" alt="Map"><br>
+            <span th:text="#{home.pharmacy}"> Nearby Pharmacies </span>
+          </button>
+        </form>
+
+        <form action="/translateCard" method="get" class="btnForm">
+          <button class="feature-button">
+            <img th:src="@{/image/icon_translate.png}" alt="Translate"><br>
+            <span th:text="#{home.translation}"/>
+          </button>
+        </form>
+
+        <form action="/cardNews" method="get" class="btnForm">
+          <button class="feature-button">
+            <img th:src="@{/image/icon_news.png}" alt="News"><br>
+            <span th:text="#{home.cardnews}">Card News</span>
+          </button>
+        </form>
+      </div>
     </div>
 
+    <div class="howto-wrapper">
+      <button class="action-button howto-button" onclick="location.href='/howtouse'">
+        <span th:text="#{home.howtouse}">Card News</span>
+      </button>
+    </div>
+
+    
     <div class="carousel">
       <button class="prev-button">◀</button>
       <div class="slides">
@@ -27,32 +60,16 @@
       </div>
       <button class="next-button">▶</button>
     </div>
-
     <div class="dots-container">
       <span class="dot active"></span>
       <span class="dot"></span>
       <span class="dot"></span>
     </div>
 
-    <div class="buttons-container">
-      <button class="feature-button">💊<span th:text="#{home.medicineSearch}"> Medicine Search </span> →</button>
-
-      <form action="/translateCard" method="get" class = "btnForm">
-      <button class="feature-button">🔄<span th:text="#{home.translation}">Translation </span>  →</button>
-      </form>
-
-      <form action="/pharmacies" method="get" class = "btnForm">
-        <button class="feature-button">📍<span th:text="#{home.pharmacy}"> Nearby Pharmacies </span> →</button>
-      </form>
-
-      <button class="feature-button">📰<span th:text="#{home.cardnews}">Card News</span> →</button>
-    </div>
   </main>
 
   <div th:replace="fragments/footer :: footer"></div>
 </div>
-
-<a th:href="@{/chatbot}" class="floating-chat">💬</a>
 
 <script th:src="@{/js/script.js}"></script>
 </body>

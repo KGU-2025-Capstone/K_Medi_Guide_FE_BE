@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploads/**") // 웹에서 /uploads/로 접근 가능
-                .addResourceLocations("file:" + uploadPath);  // 로컬 폴더와 매핑
+                .addResourceLocations("file:" + uploadPath + "/");  // 로컬 폴더와 매핑
     }
 
     @Bean

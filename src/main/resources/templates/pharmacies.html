@@ -91,7 +91,6 @@
   }
 
   function displayPharmacies(data) {
-    console.log(data)
     const pharmacyList = document.getElementById('pharmacyList');
     pharmacyList.innerHTML = '';
 
@@ -127,8 +126,10 @@
       `;
 
       const mapDiv = document.createElement('div');
+      mapDiv.classList.add("mapDiv");
       mapDiv.style.marginTop = '10px';
       mapDiv.style.display = 'none';
+      mapDiv.style.marginBottom = '20px';
 
       const mapImg = document.createElement('img');
       mapImg.alt = '약국 위치';
@@ -158,8 +159,14 @@
       mapDiv.appendChild(mapImg);
 
       div.addEventListener('click', () => {
-        selectedLocation = { lat, lng };
-        document.querySelectorAll('.pharmacy-item > div').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.pharmacy-item').forEach(el => {
+          el.classList.remove("selected");
+        });
+        div.classList.add("selected")
+        document.querySelectorAll('.mapDiv').forEach(el => {
+          el.style.display = 'none';
+        });
+        // document.querySelectorAll('.pharmacy-item > div').forEach(el => el.style.display = 'none');
         mapDiv.style.display = (mapDiv.style.display === 'none') ? 'block' : 'none';
       });
 

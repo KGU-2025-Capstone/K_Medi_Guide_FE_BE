@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카드뉴스 리스트</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/cardNews.css">
+  <link th:href="@{/css/header.css}" rel="stylesheet">
+  <link th:href="@{/css/footer.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container mt-4">
+  <h1 class="mb-4">카드뉴스 모음</h1>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-4" th:each="cardNews : ${cardNewsList}">
+      <div class="card">
+        <img th:src="${cardNews.thumbnail}" class="card-img-top" alt="카드뉴스 이미지">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${cardNews.title}"></h5>
+          <p class="card-text" th:text="${cardNews.description}"></p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted">
+              <span th:text="${cardNews.author}"></span>
+              <br>
+              <span th:text="${#temporals.format(cardNews.createdAt, 'yyyy년 MM월 dd일 HH:mm')}"></span>
+            </div>
+          </div>
+          <a th:href="@{/cardNews/{id}(id=${cardNews.id})}" class="btn btn-primary mt-3 w-100">자세히 보기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/cardNews.js"></script>
+</body>
+</html>

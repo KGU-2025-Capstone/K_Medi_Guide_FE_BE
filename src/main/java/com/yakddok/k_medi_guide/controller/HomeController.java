@@ -53,4 +53,5 @@ public class HomeController {
     public String pharmaciesPage(Model model) {
         return "pharmacies";
     }
+
 }
